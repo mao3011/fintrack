@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fintrack - ホーム</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+                    <style>
+                        .logo-text { font-family: Arial, sans-serif; font-weight: bold; }
+                    </style>
+                    <rect x="0" y="10" width="30" height="30" rx="5" fill="#ffc436"/>
+                    <circle cx="15" cy="25" r="10" fill="#ffffff"/>
+                    <path d="M15 20 L18 25 L15 30 L12 25 Z" fill="#3a4f7a"/>
+                    <text x="40" y="35" class="logo-text" font-size="24" fill="#ffffff">Fintrack</text>
+                </svg>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="index.html">ホーム</a></li>
+                    <li><a href="inside.html">入出金</a></li>
+                    <li><a href="#">口座</a></li>
+                    <li><a href="#">資産</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1>ホーム</h1>
+                <div class="date-selector">
+                    <button class="date-nav prev-month" aria-label="前月">&lt;</button>
+                    <span id="current-date" class="current-date"></span>
+                    <button class="date-nav next-month" aria-label="翌月">&gt;</button>
+                </div>
+            </header>
+            <section class="summary-section">
+                <div class="summary-cards">
+                    <div class="summary-card income">
+                        <h3>収入</h3>
+                        <p class="amount" id="income-amount">¥0</p>
+                    </div>
+                    <div class="summary-card expense">
+                        <h3>支出</h3>
+                        <p class="amount" id="expense-amount">¥0</p>
+                    </div>
+                    <div class="summary-card balance">
+                        <h3>収支</h3>
+                        <p class="amount" id="balance-amount">¥0</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="expense-chart"></canvas>
+                </div>
+            </section>
+            <section class="category-section">
+                <h2>カテゴリー別支出</h2>
+                <ul class="category-list" id="category-list">
+                    <!-- カテゴリーリストはJavaScriptで動的に生成 -->
+                </ul>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
