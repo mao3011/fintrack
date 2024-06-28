@@ -1,3 +1,6 @@
+/* フォントの読み込み */
+@import url('https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700&display=swap');
+
 :root {
     --primary-color: #3a4f7a;
     --secondary-color: #7895cb;
@@ -6,14 +9,18 @@
     --text-color: #333;
     --card-background: #ffffff;
     --sidebar-width: 250px;
+    --success-color: #4CAF50;
+    --error-color: #f44336;
+    --focus-color: #2196F3;
 }
 
 body {
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Zen Old Mincho', serif;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
     color: var(--text-color);
+    line-height: 1.6;
 }
 
 .app-container {
@@ -27,6 +34,7 @@ body {
     color: white;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
 }
 
 .sidebar-header {
@@ -37,6 +45,11 @@ body {
 .logo {
     max-width: 200px;
     margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 .sidebar-nav ul {
@@ -52,18 +65,21 @@ body {
     color: white;
     text-decoration: none;
     font-size: 16px;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: block;
 }
 
 .sidebar-nav a:hover,
 .sidebar-nav li.active a {
     color: var(--accent-color);
+    transform: translateX(5px);
 }
 
 .main-content {
     flex-grow: 1;
     padding: 30px;
     background-color: var(--background-color);
+    transition: margin-left 0.3s ease;
 }
 
 .main-header {
@@ -91,6 +107,11 @@ body {
     color: var(--primary-color);
     cursor: pointer;
     padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+.date-nav:hover {
+    color: var(--secondary-color);
 }
 
 .current-date {
@@ -102,12 +123,15 @@ body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 30px;
+    flex-wrap: wrap;
 }
 
 .summary-cards {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    flex: 1;
+    margin-right: 20px;
 }
 
 .summary-card {
@@ -116,6 +140,13 @@ body {
     padding: 20px;
     min-width: 200px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .summary-card h3 {
@@ -132,8 +163,8 @@ body {
 }
 
 .chart-container {
-    flex-grow: 1;
-    max-width: 50%;
+    flex: 1;
+    min-width: 300px;
     background-color: var(--card-background);
     border-radius: 10px;
     padding: 20px;
@@ -163,10 +194,15 @@ body {
     justify-content: space-between;
     padding: 10px 0;
     border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
 }
 
 .category-list li:last-child {
     border-bottom: none;
+}
+
+.category-list li:hover {
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .transaction-form form {
@@ -185,6 +221,14 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.transaction-form input:focus,
+.transaction-form select:focus {
+    outline: none;
+    border-color: var(--focus-color);
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
 }
 
 .type-buttons {
@@ -199,17 +243,21 @@ body {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .type-button[data-type="収入"] {
-    background-color: #4CAF50;
+    background-color: var(--success-color);
     color: white;
 }
 
 .type-button[data-type="支出"] {
-    background-color: #f44336;
+    background-color: var(--error-color);
     color: white;
+}
+
+.type-button:hover {
+    transform: translateY(-2px);
 }
 
 .type-button.selected {
@@ -224,17 +272,19 @@ body {
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .transaction-form button[type="submit"]:hover {
     background-color: var(--secondary-color);
+    transform: translateY(-2px);
 }
 
 .transaction-list table {
     width: 100%;
     border-collapse: collapse;
 }
+
 .transaction-list th, .transaction-list td {
     padding: 10px;
     text-align: left;
@@ -244,6 +294,285 @@ body {
 .transaction-list th {
     background-color: var(--secondary-color);
     color: white;
+}
+
+.transaction-list tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ログイン画面のスタイル */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--background-color);
+}
+
+.login-box {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-container .logo {
+    width: 200px;
+    height: auto;
+}
+
+.login-box h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--focus-color);
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+}
+
+.login-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* カテゴリー追加ボタンのスタイル */
+
+.category-container {
+    margin-bottom: 15px;
+}
+
+.category-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.category-selection {
+    display: flex;
+    gap: 10px;
+}
+
+.category-selection select {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.add-category-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    white-space: nowrap;
+}
+
+.add-category-btn:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+} 
+
+/* レスポンシブデザインの調整 */
+ @media (max-width: 480px) {
+    .category-selection {
+        flex-direction: column;
+    }
+
+    .add-category-btn {
+        width: 100%;
+    }
+} 
+
+/* .category-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-category-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-category-btn:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* ビュー切り替えボタンのスタイル */
+.view-toggle {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.view-toggle button {
+    background-color: var(--background-color);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.view-toggle button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.view-toggle button:hover {
+    transform: translateY(-2px);
+}
+
+.view-toggle button:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.view-toggle button:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+/* 収支と支出の色分け */
+.income {
+    color: var(--success-color);
+}
+
+.expense {
+    color: var(--error-color);
+}
+
+/* カレンダービューのスタイル */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    border: 1px solid #ccc;
+    padding: 5px;
+    min-height: 100px;
+    transition: background-color 0.3s ease;
+}
+
+.calendar-day:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.calendar-day-header {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.calendar-transaction {
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+
+
+
+/* レスポンシブデザインの調整 */
+@media (max-width: 1024px) {
+    .summary-cards {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .summary-card {
+        flex-basis: calc(50% - 10px);
+    }
+
+    .chart-container {
+        flex-basis: 100%;
+        margin-top: 20px;
+    }
+    .category-selection {
+        flex-direction: column;
+    }
+
+    .add-category-btn {
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -264,8 +593,90 @@ body {
         flex-direction: column;
     }
 
+    .summary-cards {
+        flex-direction: column;
+    }
+
+    .summary-card {
+        flex-basis: 100%;
+    }
+
     .chart-container {
         max-width: 100%;
         margin-top: 20px;
+    }
+
+    .category-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .add-category-btn {
+        margin-top: 5px;
+    }
+
+    .transaction-form,
+    .transaction-list {
+        width: 100%;
+    }
+
+    .view-toggle {
+        justify-content: center;
+    }
+    
+}
+
+/* アクセシビリティの向上 */
+*:focus {
+    outline: 2px solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* スクロールバーのカスタマイズ */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* プリントスタイル */
+@media print {
+    .sidebar,
+    .main-header,
+    .transaction-form,
+    .view-toggle {
+        display: none;
+    }
+
+    .main-content {
+        width: 100%;
+        padding: 0;
+    }
+
+    .summary-section,
+    .category-section,
+    .transaction-list {
+        page-break-inside: avoid;
     }
 }
