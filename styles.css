@@ -427,7 +427,7 @@ body {
     font-size: 16px;
 }
 
-.add-category-btn {
+/* .add-category-btn {
     background-color: var(--secondary-color);
     color: white;
     border: none;
@@ -437,12 +437,12 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     white-space: nowrap;
-}
+} */
 
-.add-category-btn:hover {
+/* .add-category-btn:hover {
     background-color: var(--primary-color);
     transform: translateY(-2px);
-} 
+}  */
 
 /* レスポンシブデザインの調整 */
  @media (max-width: 480px) {
@@ -678,5 +678,392 @@ body {
     .category-section,
     .transaction-list {
         page-break-inside: avoid;
+    }
+}
+/* 既存のスタイル */
+/* 既存のスタイル */
+
+/* ユーザー設定ページのスタイル */
+.settings-section {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.settings-section h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.category-management, .budget-setting {
+    margin-bottom: 20px;
+}
+
+.category-add, .budget-setting {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.category-add input, .budget-setting input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.category-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+}
+
+.category-item:last-child {
+    border-bottom: none;
+}
+
+.category-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.delete-btn {
+    background-color: var(--error-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+#current-budget {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+/* 固定費設定のスタイル */
+.fixed-cost-setting {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.fixed-cost-setting select,
+.fixed-cost-setting input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#fixed-cost-list {
+    margin-top: 20px;
+}
+
+.fixed-cost-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.fixed-cost-item:last-child {
+    border-bottom: none;
+}
+
+.fixed-cost-item .amount {
+    font-weight: bold;
+}
+
+.fixed-cost-item .previous-month {
+    font-size: 0.9em;
+    color: #666;
+}
+/* 固定費設定のスタイル */
+/* 固定費設定のスタイル */
+.fixed-cost-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.fixed-cost-form select,
+.fixed-cost-form input {
+    flex: 1 1 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.fixed-cost-form button {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.fixed-cost-form button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.fixed-costs-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.fixed-cost-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+}
+
+.fixed-cost-item:last-child {
+    border-bottom: none;
+}
+
+.fixed-cost-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.fixed-cost-item .category {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.fixed-cost-item .amount {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.fixed-cost-item .delete-btn {
+    background-color: var(--error-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.fixed-cost-item .delete-btn:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+/* レスポンシブデザインの調整 */
+@media (max-width: 768px) {
+    .fixed-cost-form {
+        flex-direction: column;
+    }
+
+    .fixed-cost-form select,
+    .fixed-cost-form input,
+    .fixed-cost-form button {
+        width: 100%;
+    }
+}
+
+/* 資産管理ページのスタイル */
+.assets-section {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.assets-section h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.asset-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.asset-form input {
+    flex: 1 1 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.asset-form button {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.asset-form button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.asset-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.asset-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+}
+
+.asset-item:last-child {
+    border-bottom: none;
+}
+
+.asset-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.asset-item .name {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.asset-item .amount {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.asset-item .delete-btn {
+    background-color: var(--error-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.asset-item .delete-btn:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+/* 資産概要セクションのスタイル */
+.assets-overview {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.chart-container {
+    flex: 1;
+    min-width: 300px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+}
+
+.assets-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.assets-summary .summary-card {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+}
+
+.assets-summary .summary-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.assets-summary .summary-card .amount {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+/* レスポンシブデザインの調整 */
+@media (max-width: 768px) {
+    .assets-overview {
+        flex-direction: column;
+    }
+
+    .chart-container {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .assets-summary {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .assets-summary .summary-card {
+        flex: 1 1 calc(50% - 10px);
     }
 }
