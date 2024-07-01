@@ -35,47 +35,64 @@
                 <h1>資産管理</h1>
             </header>
             <section class="assets-overview">
-                <div class="chart-container">
-                    <canvas id="assets-chart"></canvas>
-                </div>
-                <div class="assets-summary">
-                    <div class="summary-card">
-                        <h3>総資産</h3>
-                        <p class="amount" id="total-assets">¥0</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>総負債</h3>
-                        <p class="amount" id="total-debts">¥0</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>純資産</h3>
-                        <p class="amount" id="net-worth">¥0</p>
-                    </div>
+                <h2>資産概要</h2>
+                <div class="assets-summary-container">
+                    <div id="assets-summary"></div>
                 </div>
             </section>
-            <section class="assets-section">
-                <h2>預貯金</h2>
-                <div class="asset-form">
-                    <input type="text" id="savings-bank" placeholder="銀行名">
-                    <input type="text" id="savings-account" placeholder="口座種類">
-                    <input type="number" id="savings-amount" placeholder="金額">
-                    <button id="add-savings" class="btn">追加</button>
-                </div>
-                <ul id="savings-list" class="asset-list">
-                    <!-- 預貯金リストはJavaScriptで動的に生成 -->
-                </ul>
+            <section class="asset-category" id="bank-accounts">
+                <h2>銀行口座</h2>
+                <form class="asset-form" id="bank-form">
+                    <input type="text" name="name" placeholder="銀行名" required>
+                    <input type="number" name="balance" placeholder="残高" required>
+                    <button type="submit">追加</button>
+                </form>
+                <ul class="asset-list" id="bank-list"></ul>
             </section>
-            <section class="assets-section">
+            <section class="asset-category" id="credit-cards">
+                <h2>クレジットカード</h2>
+                <form class="asset-form" id="card-form">
+                    <input type="text" name="name" placeholder="カード名" required>
+                    <input type="number" name="balance" placeholder="利用額" required>
+                    <button type="submit">追加</button>
+                </form>
+                <ul class="asset-list" id="card-list"></ul>
+            </section>
+            <section class="asset-category" id="securities">
+                <h2>証券</h2>
+                <form class="asset-form" id="security-form">
+                    <input type="text" name="name" placeholder="証券名" required>
+                    <input type="number" name="balance" placeholder="評価額" required>
+                    <button type="submit">追加</button>
+                </form>
+                <ul class="asset-list" id="security-list"></ul>
+            </section>
+            <section class="asset-category" id="e-money">
+                <h2>電子マネー・プリペイド</h2>
+                <form class="asset-form" id="emoney-form">
+                    <input type="text" name="name" placeholder="電子マネー名" required>
+                    <input type="number" name="balance" placeholder="残高" required>
+                    <button type="submit">追加</button>
+                </form>
+                <ul class="asset-list" id="emoney-list"></ul>
+            </section>
+            <section class="asset-category" id="points">
+                <h2>ポイント</h2>
+                <form class="asset-form" id="point-form">
+                    <input type="text" name="name" placeholder="ポイント名" required>
+                    <input type="number" name="balance" placeholder="ポイント数" required>
+                    <button type="submit">追加</button>
+                </form>
+                <ul class="asset-list" id="point-list"></ul>
+            </section>
+            <section class="asset-category" id="liabilities">
                 <h2>負債</h2>
-                <div class="asset-form">
-                    <input type="text" id="debt-name" placeholder="負債名">
-                    <input type="text" id="debt-type" placeholder="種類">
-                    <input type="number" id="debt-amount" placeholder="金額">
-                    <button id="add-debt" class="btn">追加</button>
-                </div>
-                <ul id="debt-list" class="asset-list">
-                    <!-- 負債リストはJavaScriptで動的に生成 -->
-                </ul>
+                <form class="asset-form" id="liability-form">
+                    <input type="text" name="name" placeholder="負債名" required>
+                    <input type="number" name="balance" placeholder="金額" required>
+                    <button type="submit">追加</button>
+                </form>
+                <ul class="asset-list" id="liability-list"></ul>
             </section>
         </main>
     </div>

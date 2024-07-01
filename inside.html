@@ -34,67 +34,69 @@
             <header class="main-header">
                 <h1>入出金</h1>
             </header>
-            <div class="content-wrapper">
-                <div class="transaction-form">
-                    <h2>新しい入出金を追加</h2>
-                    <form id="transaction-form">
+            <section class="transaction-form-section">
+                <h2>新しい入出金を追加</h2>
+                <form id="transaction-form">
+                    <div class="form-group">
                         <label for="date">日付:</label>
                         <input type="date" id="date" name="date" required>
-                        
-                        <div class="category-container">
-                            <label for="category">カテゴリー:</label>
-                            <div class="category-selection">
-                                <select id="category" name="category" required>
-                                    <option value="住宅">住宅</option>
-                                    <option value="食費">食費</option>
-                                    <option value="交通費">交通費</option>
-                                    <option value="光熱費">光熱費</option>
-                                    <option value="娯楽">娯楽</option>
-                                    <option value="その他">その他</option>
-                                </select>
-                                <!-- <button type="button" id="add-category" class="add-category-btn">追加</button> -->
-                            </div>
-                        </div>
-                        
+                    </div>
+                    <div class="form-group">
+                        <label for="main-category">主カテゴリー:</label>
+                        <select id="main-category" name="main-category" required>
+                            <!-- 主カテゴリーオプションはJavaScriptで動的に生成 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sub-category">副カテゴリー:</label>
+                        <select id="sub-category" name="sub-category" required>
+                            <!-- 副カテゴリーオプションはJavaScriptで動的に生成 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="amount">金額:</label>
                         <input type="number" id="amount" name="amount" required>
-                        
+                    </div>
+                    <div class="form-group">
+                        <label for="payment-method">支払い方法:</label>
+                        <select id="payment-method" name="payment-method" required>
+                            <!-- 支払い方法オプションはJavaScriptで動的に生成 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="memo">メモ:</label>
+                        <textarea id="memo" name="memo"></textarea>
+                    </div>
+                    <div class="form-group">
                         <label>タイプ:</label>
                         <div class="type-buttons">
                             <button type="button" class="type-button" data-type="収入">収入</button>
                             <button type="button" class="type-button" data-type="支出">支出</button>
                         </div>
                         <input type="hidden" id="type" name="type" required>
-                        
-                        <button type="submit">追加</button>
-                    </form>
-                </div>
-                <div class="transaction-list">
-                    <h2>入出金の記録</h2>
-                    <div class="view-toggle">
-                        <button id="list-view-btn" class="active">リスト表示</button>
-                        <button id="calendar-view-btn">カレンダー表示</button>
                     </div>
-                    <div id="list-view">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>日付</th>
-                                    <th>カテゴリー</th>
-                                    <th>金額</th>
-                                    <th>タイプ</th>
-                                </tr>
-                            </thead>
-                            <tbody id="transaction-table-body">
-                                <!-- ここに入出金の記録が追加されます -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="calendar-view" style="display: none;">
-                        <!-- カレンダービューの内容はJavaScriptで動的に生成します -->
-                    </div>
-                </div>
-            </div>
+                    <button type="submit" class="submit-btn">追加</button>
+                </form>
+            </section>
+            <section class="transaction-list-section">
+                <h2>入出金の記録</h2>
+                <table id="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>日付</th>
+                            <th>カテゴリー</th>
+                            <th>金額</th>
+                            <th>タイプ</th>
+                            <th>支払い方法</th>
+                            <th>メモ</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- トランザクションリストはJavaScriptで動的に生成 -->
+                    </tbody>
+                </table>
+            </section>
         </main>
     </div>
     <script src="inside.js"></script>

@@ -55,23 +55,19 @@
                         <h3>収支</h3>
                         <p class="amount" id="balance-amount">¥0</p>
                     </div>
-                    <div class="summary-card pl">
-                        <h3>PL（利益損失）</h3>
-                        <p class="amount" id="pl-amount">¥0</p>
-                    </div>
                 </div>
                 <div class="chart-container">
                     <canvas id="expense-chart"></canvas>
                 </div>
             </section>
-            <section class="category-section">
-                <h2>カテゴリー別支出</h2>
-                <ul class="category-list" id="category-list">
-                    <!-- カテゴリーリストはJavaScriptで動的に生成 -->
-                </ul>
+            <section class="calendar-section">
+                <h2>月間カレンダー</h2>
+                <div id="monthly-calendar" class="monthly-calendar">
+                    <!-- カレンダーはJavaScriptで動的に生成 -->
+                </div>
             </section>
         </main>
     </div>
-    <script src="script.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

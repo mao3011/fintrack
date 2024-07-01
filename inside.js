@@ -1,24 +1,47 @@
-let currentDate = new Date();
-let transactions = [];
-
 document.addEventListener('DOMContentLoaded', function() {
+    loadCategories();
+    loadPaymentMethods();
     setupEventListeners();
-    updateView();
+    loadTransactions();
 });
+
+function loadCategories() {
+    const categories = JSON.parse(localStorage.getItem('categories')) || {};
+    const mainCategorySelect = document.getElementById('main-category');
+    const subCategorySelect = document.getElementById('sub-category');
+
+    mainCategorySelect.innerHTML = '<option value="">選択してください</option>';
+    Object.keys(categories).forEach(mainCategory => {
+        mainCategorySelect.innerHTML += `<option value="${mainCategory}">${mainCategory}</option>`;
+    });
+
+    mainCategorySelect.addEventListener('change', function() {
+        const selectedMainCategory = this.value;
+        subCategorySelect.innerHTML = '<option value="">選択してください</option>';
+        if (selectedMainCategory && categories[selectedMainCategory]) {
+            categories[selectedMainCategory].forEach(subCategory => {
+                subCategorySelect.innerHTML += `<option value="${subCategory}">${subCategory}</option>`;
+            });
+        }
+    });
+}
+
+function loadPaymentMethods() {
+    const paymentMethods = JSON.parse(localStorage.getItem('paymentMethods')) || ['現金', 'クレジットカード', '電子マネー'];
+    const paymentMethodSelect = document.getElementById('payment-method');
+    paymentMethodSelect.innerHTML = paymentMethods.map(method => `<option value="${method}">${method}</option>`).join('');
+}
 
 function setupEventListeners() {
     const form = document.getElementById('transaction-form');
     const typeButtons = document.querySelectorAll('.type-button');
     const typeInput = document.getElementById('type');
-    const addCategoryBtn = document.getElementById('add-category');
-    const listViewBtn = document.getElementById('list-view-btn');
-    const calendarViewBtn = document.getElementById('calendar-view-btn');
 
     typeButtons.forEach(button => {
         button.addEventListener('click', function() {
             typeButtons.forEach(btn => btn.classList.remove('selected'));
-            button.classList.add('selected');
-            typeInput.value = button.getAttribute('data-type');
+            this.classList.add('selected');
+            typeInput.value = this.getAttribute('data-type');
         });
     });
 
@@ -26,145 +49,67 @@ function setupEventListeners() {
         event.preventDefault();
         addTransaction();
     });
-
-    addCategoryBtn.addEventListener('click', addCategory);
-    listViewBtn.addEventListener('click', () => switchView('list'));
-    calendarViewBtn.addEventListener('click', () => switchView('calendar'));
 }
 
 function addTransaction() {
     const form = document.getElementById('transaction-form');
-    const date = form.date.value;
-    const category = form.category.value;
-    const amount = form.amount.value;
-    const type = form.type.value;
-
     const transaction = {
-        date: new Date(date),
-        category: category,
-        amount: parseFloat(amount),
-        type: type
+        id: Date.now(),
+        date: form.date.value,
+        mainCategory: form['main-category'].value,
+        subCategory: form['sub-category'].value,
+        amount: parseFloat(form.amount.value),
+        paymentMethod: form['payment-method'].value,
+        memo: form.memo.value,
+        type: form.type.value
     };
 
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     transactions.push(transaction);
-    updateView();
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+
+    loadTransactions();
     form.reset();
     document.querySelectorAll('.type-button').forEach(btn => btn.classList.remove('selected'));
 }
 
-function updateView() {
-    const currentView = document.querySelector('.view-toggle button.active').id === 'list-view-btn' ? 'list' : 'calendar';
-    if (currentView === 'list') {
-        updateListView();
-    } else {
-        updateCalendarView();
-    }
-}
-
-function updateListView() {
-    const tableBody = document.getElementById('transaction-table-body');
+function loadTransactions() {
+    const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    const tableBody = document.querySelector('#transaction-table tbody');
     tableBody.innerHTML = '';
 
-    transactions.sort((a, b) => b.date - a.date).forEach(transaction => {
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td>${formatDate(transaction.date)}</td>
-            <td>${transaction.category}</td>
-            <td class="${transaction.type === '収入' ? 'income' : 'expense'}">
-                ${formatCurrency(transaction.amount, transaction.type)}
-            </td>
+    transactions.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(transaction => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${transaction.date}</td>
+            <td>${transaction.mainCategory} > ${transaction.subCategory}</td>
+            <td class="transaction-${transaction.type.toLowerCase()}">${formatCurrency(transaction.amount)}</td>
             <td>${transaction.type}</td>
+            <td>${transaction.paymentMethod}</td>
+            <td>${transaction.memo}</td>
+            <td>
+                <button onclick="editTransaction(${transaction.id})">編集</button>
+                <button onclick="deleteTransaction(${transaction.id})">削除</button>
+            </td>
         `;
-        tableBody.appendChild(newRow);
+        tableBody.appendChild(row);
     });
 }
 
-function updateCalendarView() {
-    const calendarView = document.getElementById('calendar-view');
-    calendarView.innerHTML = '';
-
-    const calendar = document.createElement('div');
-    calendar.className = 'calendar';
-
-    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
-    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
-
-    // Add day headers
-    const days = ['日', '月', '火', '水', '木', '金', '土'];
-    days.forEach(day => {
-        const dayHeader = document.createElement('div');
-        dayHeader.className = 'calendar-day-header';
-        dayHeader.textContent = day;
-        calendar.appendChild(dayHeader);
-    });
-
-    // Add empty cells for days before the first day of the month
-    for (let i = 0; i < firstDay; i++) {
-        calendar.appendChild(document.createElement('div'));
-    }
-
-    // Add cells for each day of the month
-    for (let i = 1; i <= daysInMonth; i++) {
-        const dayCell = document.createElement('div');
-        dayCell.className = 'calendar-day';
-        dayCell.innerHTML = `<div class="calendar-day-header">${i}</div>`;
-
-        const dayTransactions = transactions.filter(t => 
-            t.date.getFullYear() === currentDate.getFullYear() &&
-            t.date.getMonth() === currentDate.getMonth() &&
-            t.date.getDate() === i
-        );
-
-        dayTransactions.forEach(transaction => {
-            const transactionElement = document.createElement('div');
-            transactionElement.className = `calendar-transaction ${transaction.type === '収入' ? 'income' : 'expense'}`;
-            transactionElement.textContent = `${transaction.category}: ${formatCurrency(transaction.amount, transaction.type)}`;
-            dayCell.appendChild(transactionElement);
-        });
-
-        calendar.appendChild(dayCell);
-    }
-
-    calendarView.appendChild(calendar);
+function editTransaction(id) {
+    // 編集機能の実装（モーダルウィンドウを使用するなど）
+    console.log('Edit transaction:', id);
 }
 
-function switchView(view) {
-    const listView = document.getElementById('list-view');
-    const calendarView = document.getElementById('calendar-view');
-    const listViewBtn = document.getElementById('list-view-btn');
-    const calendarViewBtn = document.getElementById('calendar-view-btn');
-
-    if (view === 'list') {
-        listView.style.display = 'block';
-        calendarView.style.display = 'none';
-        listViewBtn.classList.add('active');
-        calendarViewBtn.classList.remove('active');
-    } else {
-        listView.style.display = 'none';
-        calendarView.style.display = 'block';
-        listViewBtn.classList.remove('active');
-        calendarViewBtn.classList.add('active');
-    }
-
-    updateView();
-}
-
-function addCategory() {
-    const newCategory = prompt('新しいカテゴリー名を入力してください:');
-    if (newCategory) {
-        const categorySelect = document.getElementById('category');
-        const option = document.createElement('option');
-        option.value = newCategory;
-        option.textContent = newCategory;
-        categorySelect.appendChild(option);
+function deleteTransaction(id) {
+    if (confirm('この取引を削除してもよろしいですか？')) {
+        const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        const updatedTransactions = transactions.filter(t => t.id !== id);
+        localStorage.setItem('transactions', JSON.stringify(updatedTransactions));
+        loadTransactions();
     }
 }
 
-function formatDate(date) {
-    return `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
-}
-
-function formatCurrency(amount, type) {
-    const formatter = new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' });
-    return type === '支出' ? `-${formatter.format(amount)}` : formatter.format(amount);
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' }).format(amount);
 }
