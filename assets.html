@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fintrack - 資産管理</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="zen-old-mincho-regular">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+                    <style>
+                        .logo-text { font-family: "Zen Old Mincho", serif; font-weight: bold; }
+                    </style>
+                    <rect x="0" y="10" width="30" height="30" rx="5" fill="#ffc436"/>
+                    <circle cx="15" cy="25" r="10" fill="#ffffff"/>
+                    <path d="M15 20 L18 25 L15 30 L12 25 Z" fill="#3a4f7a"/>
+                    <text x="40" y="35" class="logo-text" font-size="24" fill="#ffffff">Fintrack</text>
+                </svg>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="inside.html">入出金</a></li>
+                    <li><a href="#">口座</a></li>
+                    <li><a href="assets.html">資産</a></li>
+                    <li><a href="settings.html">設定</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1>資産管理</h1>
+            </header>
+            <section class="assets-overview">
+                <div class="chart-container">
+                    <canvas id="assets-chart"></canvas>
+                </div>
+                <div class="assets-summary">
+                    <div class="summary-card">
+                        <h3>総資産</h3>
+                        <p class="amount" id="total-assets">¥0</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>総負債</h3>
+                        <p class="amount" id="total-debts">¥0</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>純資産</h3>
+                        <p class="amount" id="net-worth">¥0</p>
+                    </div>
+                </div>
+            </section>
+            <section class="assets-section">
+                <h2>預貯金</h2>
+                <div class="asset-form">
+                    <input type="text" id="savings-bank" placeholder="銀行名">
+                    <input type="text" id="savings-account" placeholder="口座種類">
+                    <input type="number" id="savings-amount" placeholder="金額">
+                    <button id="add-savings" class="btn">追加</button>
+                </div>
+                <ul id="savings-list" class="asset-list">
+                    <!-- 預貯金リストはJavaScriptで動的に生成 -->
+                </ul>
+            </section>
+            <section class="assets-section">
+                <h2>負債</h2>
+                <div class="asset-form">
+                    <input type="text" id="debt-name" placeholder="負債名">
+                    <input type="text" id="debt-type" placeholder="種類">
+                    <input type="number" id="debt-amount" placeholder="金額">
+                    <button id="add-debt" class="btn">追加</button>
+                </div>
+                <ul id="debt-list" class="asset-list">
+                    <!-- 負債リストはJavaScriptで動的に生成 -->
+                </ul>
+            </section>
+        </main>
+    </div>
+    <script src="assets.js"></script>
+</body>
+</html>
