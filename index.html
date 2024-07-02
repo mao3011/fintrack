@@ -25,9 +25,8 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="index.html">ホーム</a></li>
-                    <li><a href="inside.html">入出金</a></li>
-                    <li><a href="#">口座</a></li>
                     <li><a href="assets.html">資産</a></li>
+                    <li><a href="financial-analysis.html">高度な分析とレポート</a></li>
                     <li><a href="settings.html">設定</a></li>
                 </ul>
             </nav>
@@ -41,6 +40,7 @@
                     <button class="date-nav next-month" aria-label="翌月">&gt;</button>
                 </div>
             </header>
+
             <section class="summary-section">
                 <div class="summary-cards">
                     <div class="summary-card income">
@@ -60,12 +60,55 @@
                     <canvas id="expense-chart"></canvas>
                 </div>
             </section>
+
+            <!-- 新しい入出金フォームセクション -->
+            <div class="layout-container">
+                <section class="transaction-form-section">
+                    <h2>新しい入出金を追加</h2>
+                <form id="transaction-form">
+                    <div class="form-group">
+                        <label for="date">日付:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">カテゴリー:</label>
+                        <select id="category" name="category" required>
+                            <!-- カテゴリーオプションはJavaScriptで動的に生成 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">金額:</label>
+                        <input type="number" id="amount" name="amount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment-method">支払い方法:</label>
+                        <select id="payment-method" name="payment-method" required>
+                            <!-- 支払い方法オプションはJavaScriptで動的に生成 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="memo">メモ:</label>
+                        <textarea id="memo" name="memo"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>タイプ:</label>
+                        <div class="type-buttons">
+                            <button type="button" class="type-button" data-type="収入">収入</button>
+                            <button type="button" class="type-button" data-type="支出">支出</button>
+                        </div>
+                        <input type="hidden" id="type" name="type" required>
+                    </div>
+                    <button type="submit" class="submit-btn">追加</button>
+                </form>
+            </section>
+
             <section class="calendar-section">
                 <h2>月間カレンダー</h2>
                 <div id="monthly-calendar" class="monthly-calendar">
                     <!-- カレンダーはJavaScriptで動的に生成 -->
                 </div>
             </section>
+            </div>
         </main>
     </div>
     <script src="index.js"></script>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fintrack - 高度な分析とレポート</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="zen-old-mincho-regular">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+                    <style>
+                        .logo-text { font-family: "Zen Old Mincho", serif; font-weight: bold; }
+                    </style>
+                    <rect x="0" y="10" width="30" height="30" rx="5" fill="#ffc436"/>
+                    <circle cx="15" cy="25" r="10" fill="#ffffff"/>
+                    <path d="M15 20 L18 25 L15 30 L12 25 Z" fill="#3a4f7a"/>
+                    <text x="40" y="35" class="logo-text" font-size="24" fill="#ffffff">Fintrack</text>
+                </svg>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="assets.html">資産</a></li>
+                    <li><a href="financial-analysis.html">高度な分析とレポート</a></li>
+                    <li><a href="settings.html">設定</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="main-header">
+                <h1>高度な分析とレポート</h1>
+            </header>
+
+            <section class="analysis-section">
+                <h2>資産変動グラフ</h2>
+                <div class="graph-controls">
+                    <button id="monthly-btn" class="btn">月次</button>
+                    <button id="yearly-btn" class="btn">年次</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="asset-change-chart"></canvas>
+                </div>
+            </section>
+
+            <section class="balance-sheet-section">
+                <h2>貸借対照表</h2>
+                <table class="balance-sheet">
+                    <thead>
+                        <tr>
+                            <th colspan="2">資産の部</th>
+                            <th colspan="2">負債・純資産の部</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" class="section-header">流動資産</td>
+                            <td colspan="2" class="section-header">流動負債</td>
+                        </tr>
+                        <tr>
+                            <td>現金・預金</td>
+                            <td class="amount" id="cash-deposits"></td>
+                            <td>支払手形</td>
+                            <td class="amount" id="notes-payable"></td>
+                        </tr>
+                        <tr>
+                            <td>受取手形</td>
+                            <td class="amount" id="notes-receivable"></td>
+                            <td>買掛金</td>
+                            <td class="amount" id="accounts-payable"></td>
+                        </tr>
+                        <tr>
+                            <td>売掛金</td>
+                            <td class="amount" id="accounts-receivable"></td>
+                            <td>短期借入金</td>
+                            <td class="amount" id="short-term-loans"></td>
+                        </tr>
+                        <tr>
+                            <td>有価証券</td>
+                            <td class="amount" id="securities"></td>
+                            <td colspan="2" class="section-header">固定負債</td>
+                        </tr>
+                        <tr>
+                            <td>商品</td>
+                            <td class="amount" id="inventory"></td>
+                            <td>長期借入金</td>
+                            <td class="amount" id="long-term-loans"></td>
+                        </tr>
+                        <tr>
+                            <td>貸倒引当金</td>
+                            <td class="amount" id="allowance-doubtful"></td>
+                            <td>負債合計</td>
+                            <td class="amount total" id="total-liabilities"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="section-header">固定資産</td>
+                            <td colspan="2" class="section-header">純資産の部</td>
+                        </tr>
+                        <tr>
+                            <td>建物・構築物</td>
+                            <td class="amount" id="buildings"></td>
+                            <td>資本金</td>
+                            <td class="amount" id="capital-stock"></td>
+                        </tr>
+                        <tr>
+                            <td>土地</td>
+                            <td class="amount" id="land"></td>
+                            <td>利益剰余金</td>
+                            <td class="amount" id="retained-earnings"></td>
+                        </tr>
+                        <tr>
+                            <td>資産合計</td>
+                            <td class="amount total" id="total-assets"></td>
+                            <td>純資産合計</td>
+                            <td class="amount total" id="total-equity"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td>負債・純資産合計</td>
+                            <td class="amount total" id="total-liabilities-equity"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+    <script src="analysis.js"></script>
+</body>
+</html>

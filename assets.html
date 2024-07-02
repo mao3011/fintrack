@@ -23,9 +23,8 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="index.html">ホーム</a></li>
-                    <li><a href="inside.html">入出金</a></li>
-                    <li><a href="#">口座</a></li>
                     <li><a href="assets.html">資産</a></li>
+                    <li><a href="financial-analysis.html">高度な分析とレポート</a></li>
                     <li><a href="settings.html">設定</a></li>
                 </ul>
             </nav>
@@ -43,8 +42,10 @@
             <section class="asset-category" id="bank-accounts">
                 <h2>銀行口座</h2>
                 <form class="asset-form" id="bank-form">
-                    <input type="text" name="name" placeholder="銀行名" required>
-                    <input type="number" name="balance" placeholder="残高" required>
+                    <div class="asset-form-inputs">
+                        <input type="text" name="name" placeholder="銀行名" required>
+                        <input type="number" name="balance" placeholder="残高" required>
+                    </div>
                     <button type="submit">追加</button>
                 </form>
                 <ul class="asset-list" id="bank-list"></ul>

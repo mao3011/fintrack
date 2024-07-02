@@ -23,50 +23,43 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="index.html">ホーム</a></li>
-                    <li><a href="inside.html">入出金</a></li>
-                    <li><a href="#">口座</a></li>
                     <li><a href="assets.html">資産</a></li>
+                    <li><a href="financial-analysis.html">高度な分析とレポート</a></li>
                     <li><a href="settings.html">設定</a></li>
                 </ul>
             </nav>
         </aside>
         <main class="main-content">
             <header class="main-header">
-                <h1>ユーザー設定</h1>
+                <h1>設定</h1>
             </header>
-            <section class="settings-section">
+            <section class="settings-section" id="category-management">
                 <h2>カテゴリー管理</h2>
-                <div class="category-management">
-                    <div class="category-add">
-                        <input type="text" id="new-category" placeholder="新しいカテゴリー">
-                        <button id="add-category" class="btn">追加</button>
-                    </div>
-                    <ul id="category-list" class="category-list">
-                        <!-- カテゴリーリストはJavaScriptで動的に生成されます -->
-                    </ul>
+                <div class="category-add">
+                    <input type="text" id="new-main-category" placeholder="新しい主カテゴリー">
+                    <button id="add-main-category" class="btn">追加</button>
+                </div>
+                <div id="categories-list">
+                    <!-- カテゴリーリストはJavaScriptで動的に生成 -->
                 </div>
             </section>
-            <section class="settings-section">
+            <section class="settings-section" id="payment-method-management">
+                <h2>支払い方法管理</h2>
+                <div class="payment-method-add">
+                    <input type="text" id="new-payment-method" placeholder="新しい支払い方法">
+                    <button id="add-payment-method" class="btn">追加</button>
+                </div>
+                <ul id="payment-methods-list">
+                    <!-- 支払い方法リストはJavaScriptで動的に生成 -->
+                </ul>
+            </section>
+            <section class="settings-section" id="budget-setting">
                 <h2>月間予算設定</h2>
-                <div class="budget-setting">
+                <div class="budget-set">
                     <input type="number" id="monthly-budget" placeholder="月間予算">
                     <button id="set-budget" class="btn">設定</button>
                 </div>
                 <p id="current-budget">現在の月間予算: ¥0</p>
-            </section>
-            <section class="settings-section">
-                <h2>固定費設定</h2>
-                <div class="fixed-cost-form">
-                    <select id="fixed-cost-category">
-                        <option value="">カテゴリーを選択</option>
-                        <!-- カテゴリーはJavaScriptで動的に追加 -->
-                    </select>
-                    <input type="number" id="fixed-cost-amount" placeholder="金額">
-                    <button id="add-fixed-cost" class="btn">追加</button>
-                </div>
-                <ul id="fixed-costs-list" class="fixed-costs-list">
-                    <!-- 固定費リストはJavaScriptで動的に生成 -->
-                </ul>
             </section>
         </main>
     </div>
