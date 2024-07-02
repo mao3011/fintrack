@@ -1,22 +1,33 @@
-let currentDate = new Date();
-let expenseChart;
-
 document.addEventListener('DOMContentLoaded', function() {
     updateDateDisplay();
     setupEventListeners();
-    initializeChart();
-    updateDashboard();
+    if (document.getElementById('expense-chart')) {
+        initializeChart();
+        updateDashboard();
+    }
+    if (document.getElementById('transaction-form')) {
+        setupTransactionForm();
+    }
     renderCalendar();
 });
 
+let currentDate = new Date();
+let expenseChart;
+
 function updateDateDisplay() {
     const dateElement = document.getElementById('current-date');
-    dateElement.textContent = `${currentDate.getFullYear()}年${currentDate.getMonth() + 1}月`;
+    if (dateElement) {
+        dateElement.textContent = `${currentDate.getFullYear()}年${currentDate.getMonth() + 1}月`;
+    }
 }
 
 function setupEventListeners() {
-    document.querySelector('.prev-month').addEventListener('click', () => changeMonth(-1));
-    document.querySelector('.next-month').addEventListener('click', () => changeMonth(1));
+    const prevMonth = document.querySelector('.prev-month');
+    const nextMonth = document.querySelector('.next-month');
+    if (prevMonth && nextMonth) {
+        prevMonth.addEventListener('click', () => changeMonth(-1));
+        nextMonth.addEventListener('click', () => changeMonth(1));
+    }
 }
 
 function changeMonth(delta) {
@@ -50,68 +61,94 @@ function initializeChart() {
 }
 
 function updateDashboard() {
-    const transactions = getMonthTransactions(currentDate);
-    const { income, expense } = calculateTotals(transactions);
-    const balance = income - expense;
+    fetch(`/api/dashboard?year=${currentDate.getFullYear()}&month=${currentDate.getMonth() + 1}`)
+        .then(response => response.json())
+        .then(data => {
+            updateSummaryCards(data);
+            updateExpenseChart(data.expenses);
+        })
+        .catch(error => console.error('Error:', error));
+}
 
-    document.getElementById('income-amount').textContent = formatCurrency(income);
-    document.getElementById('expense-amount').textContent = formatCurrency(expense);
+function updateSummaryCards(data) {
+    document.getElementById('income-amount').textContent = formatCurrency(data.income);
+    document.getElementById('expense-amount').textContent = formatCurrency(data.totalExpense);
+    const balance = data.income - data.totalExpense;
     const balanceElement = document.getElementById('balance-amount');
     balanceElement.textContent = formatCurrency(Math.abs(balance));
     balanceElement.classList.toggle('negative', balance < 0);
-
-    updateExpenseChart(transactions);
 }
 
-function getMonthTransactions(date) {
-    // この関数は、指定された月のトランザクションデータを返します
-    // 実際の実装では、ローカルストレージやデータベースからデータを取得します
-    return JSON.parse(localStorage.getItem('transactions')) || [];
+function updateExpenseChart(expenses) {
+    expenseChart.data.labels = expenses.map(item => item.category);
+    expenseChart.data.datasets[0].data = expenses.map(item => item.amount);
+    expenseChart.update();
 }
 
-function calculateTotals(transactions) {
-    return transactions.reduce((totals, transaction) => {
-        if (transaction.type === '収入') {
-            totals.income += transaction.amount;
-        } else {
-            totals.expense += transaction.amount;
-        }
-        return totals;
-    }, { income: 0, expense: 0 });
-}
+function setupTransactionForm() {
+    const form = document.getElementById('transaction-form');
+    const typeButtons = document.querySelectorAll('.type-button');
+    const typeInput = document.getElementById('type');
 
-function updateExpenseChart(transactions) {
-    const categories = {};
-    transactions.forEach(transaction => {
-        if (transaction.type === '支出') {
-            categories[transaction.category] = (categories[transaction.category] || 0) + transaction.amount;
-        }
+    typeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            typeButtons.forEach(btn => btn.classList.remove('selected'));
+            this.classList.add('selected');
+            typeInput.value = this.getAttribute('data-type');
+        });
     });
 
-    expenseChart.data.labels = Object.keys(categories);
-    expenseChart.data.datasets[0].data = Object.values(categories);
-    expenseChart.update();
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        addTransaction();
+    });
+}
+
+function addTransaction() {
+    const form = document.getElementById('transaction-form');
+    const formData = new FormData(form);
+
+    fetch('/api/transactions', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            updateDashboard();
+            renderCalendar();
+            form.reset();
+            document.querySelectorAll('.type-button').forEach(btn => btn.classList.remove('selected'));
+        } else {
+            alert('トランザクションの追加に失敗しました。');
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }
 
 function renderCalendar() {
     const calendarElement = document.getElementById('monthly-calendar');
-    calendarElement.innerHTML = '';
+    if (!calendarElement) return;
 
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    fetch(`/api/calendar?year=${currentDate.getFullYear()}&month=${currentDate.getMonth() + 1}`)
+        .then(response => response.json())
+        .then(data => {
+            calendarElement.innerHTML = '';
+            const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+            const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
 
-    for (let i = 0; i < firstDay; i++) {
-        calendarElement.appendChild(createCalendarDay());
-    }
+            for (let i = 0; i < firstDay; i++) {
+                calendarElement.appendChild(createCalendarDay());
+            }
 
-    for (let day = 1; day <= daysInMonth; day++) {
-        calendarElement.appendChild(createCalendarDay(day));
-    }
+            for (let day = 1; day <= daysInMonth; day++) {
+                calendarElement.appendChild(createCalendarDay(day, data[day]));
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
-function createCalendarDay(day = null) {
+function createCalendarDay(day = null, transactions = []) {
     const dayElement = document.createElement('div');
     dayElement.className = 'calendar-day';
 
@@ -122,27 +159,20 @@ function createCalendarDay(day = null) {
             <div class="calendar-day-total"></div>
         `;
 
-        const transactions = getDayTransactions(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
-        const { income, expense } = calculateTotals(transactions);
-        const balance = income - expense;
-
         const contentElement = dayElement.querySelector('.calendar-day-content');
+        let dayTotal = 0;
+
         transactions.forEach(transaction => {
             contentElement.innerHTML += `${transaction.category}: ${formatCurrency(transaction.amount)}<br>`;
+            dayTotal += transaction.type === 'income' ? transaction.amount : -transaction.amount;
         });
 
         const totalElement = dayElement.querySelector('.calendar-day-total');
-        totalElement.textContent = formatCurrency(Math.abs(balance));
-        totalElement.classList.add(balance >= 0 ? 'positive' : 'negative');
+        totalElement.textContent = formatCurrency(Math.abs(dayTotal));
+        totalElement.classList.add(dayTotal >= 0 ? 'positive' : 'negative');
     }
 
     return dayElement;
-}
-
-function getDayTransactions(date) {
-    // この関数は、指定された日のトランザクションデータを返します
-    // 実際の実装では、ローカルストレージやデータベースからデータを取得します
-    return JSON.parse(localStorage.getItem('transactions')) || [];
 }
 
 function formatCurrency(amount) {
